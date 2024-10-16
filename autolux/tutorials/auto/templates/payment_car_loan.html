@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %} Оплата автокредита {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Оплата автокредита</h1>
+    <p><strong>Пользователь:</strong> {{ user.username }}</p>
+    <p><strong>Имя:</strong> {{ user.first_name }}</p>
+    <p><strong>Электронная почта:</strong> {{ user.email }}</p>
+<form id="payment-form" method="POST">
+        <div>
+            <label for="id_payment_method">Способ оплаты:</label>
+            {{ form.payment_method }}
+        </div>
+    {% csrf_token %}
+
+    <div id="cardFields" style="display: none;">
+        <div>
+                <label for="id_address">Адрес (если банковский счет):</label>
+                {{ form.address }}
+            </div>
+        <div>
+            <label for="id_card_number">Номер карты (если банковский счет):</label>
+            {{ form.card_number }}
+        </div>
+        <div>
+            <label for="id_card_validity_period">Срок действия карты (если банковский счет):</label>
+            {{ form.card_validity_period }}
+        </div>
+        <div>
+            <label for="id_card_code">Код карты (если банковский счет):</label>
+            {{ form.card_code }}
+        </div>
+    </div>
+
+    <button type="submit">Оплатить</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var paymentMethodSelect = document.getElementById('id_payment_method');
+        var cardFields = document.getElementById('cardFields');
+
+        function toggleCardFields() {
+            if (paymentMethodSelect.value === 'bank') {
+                cardFields.style.display = 'block';
+            } else {
+                cardFields.style.display = 'none';
+            }
+        }
+
+        paymentMethodSelect.addEventListener('change', toggleCardFields);
+
+        // Проверим текущий выбор при загрузке страницы
+        toggleCardFields();
+    });
+</script>
+    </div>
+{% endblock %}

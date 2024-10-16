@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block title %} {{ car.name }} - Оплата автомобиля {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Оплата автомобиля</h1>
+
+    <h2>Данные автомобиля</h2>
+    <table class="table table-striped">
+        <tr>
+            <th>Модель</th>
+            <td>{{ car.name }} - {{ car.brand }}</td>
+        </tr>
+        <tr>
+            <th>Двигатель</th>
+            <td>{{ car.engine.name }}, {{ car.engine.volume }} л, {{ car.engine.power }} л.с</td>
+        </tr>
+        <tr>
+            <th>Коробка передач</th>
+            <td>{{ car.transmission.type }}</td>
+        </tr>
+        <tr>
+            <th>Тип кузова</th>
+            <td>{{ car.body_type.type }}</td>
+        </tr>
+        <tr>
+            <th>Руль</th>
+            <td>{{ car.rudder.type }}</td>
+        </tr>
+        <tr>
+            <th>Цвет</th>
+            <td>{{ car.color }}</td>
+        </tr>
+        <tr>
+            <th>Пробег</th>
+            <td>{{ car.mileage }} км</td>
+        </tr>
+        <tr>
+            <th>Цена</th>
+            <td>{{ car.price }} сом</td>
+        </tr>
+    </table>
+
+    <p><strong>Пользователь:</strong> {{ user.username }}</p>
+    <p><strong>Имя:</strong> {{ user.first_name }}</p>
+    <p><strong>Электронная почта:</strong> {{ user.email }}</p>
+
+    <form id="payment-form" method="POST">
+        <div>
+            <label for="id_passport">Паспорт:</label>
+            {{ form.passport }}
+        </div>
+
+        <div>
+            <label for="id_driving_license">Водительские права:</label>
+            {{ form.driving_license }}
+        </div>
+
+        <div>
+            <label for="phone">Номер телефона:</label>
+            {{ form.phone }}
+        </div>
+
+        <div>
+            <label for="id_payment_method">Способ оплаты:</label>
+            {{ form.payment_method }}
+        </div>
+    {% csrf_token %}
+
+    <div id="cardFields" style="display: none;">
+        <div>
+                <label for="id_address">Адрес (если банковский счет):</label>
+                {{ form.address }}
+            </div>
+        <div>
+            <label for="id_card_number">Номер карты (если банковский счет):</label>
+            {{ form.card_number }}
+        </div>
+        <div>
+            <label for="id_card_validity_period">Срок действия карты (если банковский счет):</label>
+            {{ form.card_validity_period }}
+        </div>
+        <div>
+            <label for="id_card_code">Код карты (если банковский счет):</label>
+            {{ form.card_code }}
+        </div>
+    </div>
+
+    <button type="submit">Оплатить</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var paymentMethodSelect = document.getElementById('id_payment_method');
+        var cardFields = document.getElementById('cardFields');
+
+        function toggleCardFields() {
+            if (paymentMethodSelect.value === 'bank') {
+                cardFields.style.display = 'block';
+            } else {
+                cardFields.style.display = 'none';
+            }
+        }
+
+        paymentMethodSelect.addEventListener('change', toggleCardFields);
+
+        // Проверим текущий выбор при загрузке страницы
+        toggleCardFields();
+    });
+</script>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %} Мессенджер {% endblock %}
+{% block content %}
+<section class="banner">
+    <h1>Для мессенджера</h1>
+</section>
+<a href="{% url 'car_create' %}" class="btn-test-drive">Добавить новый автомобиль</a>
+<a href="{% url 'car_update' car.id %}" class="btn-test-drive">Обновить машину</a>

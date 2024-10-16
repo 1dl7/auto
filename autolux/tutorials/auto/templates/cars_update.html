@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %} Обновления автомобиля {% endblock %}
+{% block content %}
+
+    <div class="container">
+        <h1>Обновление машины</h1>
+        <form action="{% url 'car_update' car.id%}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Обновить машину</button>
+        </form>
+    </div>
+{% endblock %}

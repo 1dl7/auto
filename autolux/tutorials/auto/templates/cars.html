@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %} Автосалон "АвтоМир" {% endblock %}
+{% block content %}
+
+    <header>
+        <h1>Автосалон "АвтоМир"</h1>
+        <p>Лучшие автомобили по выгодным ценам!</p>
+    </header>
+
+    <nav>
+        <a href="#services">Услуги</a>
+        <a href="#catalog">Каталог</a>
+        <a href="#contact">Контакты</a>
+        <a href="{% url 'sign_up' %}">Регистрация</a>
+        <a href="{% url 'sign_in' %}">Авторизация</a>
+        <a href="{% url 'sign_out' %}">Выход из аккаунта</a>
+    </nav>
+
+    <section class="banner">
+        <h1>Добро пожаловать в "АвтоМир"!</h1>
+    </section>
+
+    <section class="services" id="services">
+        <h2>Наши услуги</h2>
+        <p>Продажа новых и подержанных автомобилей, автокредитование, страхование, тест-драйв.</p>
+    </section>
+
+    <section class="catalog" id="catalog">
+        <h2>Каталог автомобилей</h2>
+        {% for car in cars %}
+        <div class="car">
+            <img src="{{car.photo.url}}" alt="car.name">
+            <h3><a href="{% url 'car_detail' car.id %}">{{car.name}}-{{car.brand}}</a></h3>
+            <p>{{car.price}} сом.</p>
+        </div>
+        {% endfor %}
+        {% if perms.auto.add_car %}
+    <a href="{% url 'car_create' %}" class="btn-test-drive">Добавить новый автомобиль</a>
+        {% endif %}
+    </section>
+
+    <section class="contact" id="contact">
+        <h2>Контакты</h2>
+        <p>Адрес: г. Москва, ул. Примерная, д. 1</p>
+        <p>Телефон: +7 (495) 123-45-67</p>
+        <p>Email: info@automir.ru</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Автосалон "АвтоМир". Все права защищены.</p>
+    </footer>
+
+{% endblock %}

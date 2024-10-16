@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %} {{ car.name }} - Создание соглашения {% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Создать новый полис</h1>
+
+    <h2>Данные автомобиля</h2>
+    <table class="table table-striped">
+        <tr>
+            <th>Модель</th>
+            <td>{{ car.name }} - {{ car.brand }}</td>
+        </tr>
+        <tr>
+            <th>Двигатель</th>
+            <td>{{ car.engine.name }}, {{ car.engine.volume }} л, {{ car.engine.power }} л.с</td>
+        </tr>
+        <tr>
+            <th>Коробка передач</th>
+            <td>{{ car.transmission.type }}</td>
+        </tr>
+        <tr>
+            <th>Тип кузова</th>
+            <td>{{ car.body_type.type }}</td>
+        </tr>
+        <tr>
+            <th>Руль</th>
+            <td>{{ car.rudder.type }}</td>
+        </tr>
+        <tr>
+            <th>Цвет</th>
+            <td>{{ car.color }}</td>
+        </tr>
+        <tr>
+            <th>Пробег</th>
+            <td>{{ car.mileage }} км</td>
+        </tr>
+    </table>
+        <p><strong>Пользователь:</strong> {{ user.username }}</p>
+    <p><strong>Имя:</strong> {{ user.first_name }}</p>
+    <p><strong>Электронная почта:</strong> {{ user.email }}</p>
+<form action="{% url 'policy' car.id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
+    </div>
+{% endblock %}

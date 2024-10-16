@@ -1,0 +1,73 @@
+header {
+            background-color: #333;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            padding: 15px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .car-details {
+            padding: 50px;
+            text-align: center;
+            background-color: white;
+            margin: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .car-details img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .car-specs {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .car-specs h3 {
+            color: #333;
+        }
+        .car-specs table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+        }
+        .car-specs th, .car-specs td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .price {
+            font-size: 24px;
+            color: #333;
+            margin-top: 20px;
+        }
+        .btn-test-drive {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .btn-test-drive:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }

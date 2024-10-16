@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block title %} {{car.name}} - Детали автомобиля {% endblock %}
+{% block content %}
+
+    <header>
+        <h1>Автосалон "АвтоМир"</h1>
+        <p>Детальная информация о {{car.name}}</p>
+    </header>
+
+    <nav>
+        <a href="{% url 'cars' %}">Главная</a>
+        <a href="{% url 'cars' %}" id="catalog">Каталог</a>
+        <a href="#contact">Контакты</a>
+    </nav>
+<div class="container">
+    <div class="center-message">
+        {% if messages %}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+    </div>
+
+    <section class="car-details">
+        <h2>{{car.name}}</h2>
+        <img src="{{car.photo.url}}" alt="car.name">
+
+        <p>{{car.name}} – {{car.description}}</p>
+
+        <div class="car-specs">
+            <h3>Технические характеристики:</h3>
+            <table>
+                <tr>
+                    <th>Модель</th>
+                    <td>{{car.name}}-{{car.brand}}</td>
+                </tr>
+                <tr>
+                    <th>Двигатель</th>
+                    <td>{{car.engine.name}}, ({{car.engine.volume}}, {{car.engine.power}} л.с)</td>
+                </tr>
+                <tr>
+                    <th>Коробка передач</th>
+                    <td>{{car.transmission.type}}</td>
+                </tr>
+                <tr>
+                    <th>Тип кузова</th>
+                    <td>{{ car.body_type.type }}</td>
+                </tr>
+                <tr>
+                    <th>Руль</th>
+                    <td>{{ car.rudder.type }}</td>
+                </tr>
+                <tr>
+                    <th>Цвет</th>
+                    <td>{{ car.color }}</td>
+                </tr>
+                <tr>
+                    <th>Пробег</th>
+                    <td>{{ car.mileage }} км</td>
+                </tr>
+                <tr>
+                    <th>Цена</th>
+                    <td>{{ car.price }} сом.</td>
+                </tr>
+            </table>
+        </div>
+
+        <p class="price">{{car.price}} сом <a href="{% url 'payment' car.id %}" class="btn-test-drive">Оплатить</a></p>
+        {% if perms.auto.change_car %}
+        <a href="{% url 'car_update' car.id %}" class="btn-test-drive">Обновить машину</a>
+        {% endif %}
+        <a href="{% url 'test_drive' car.id %}" class="btn-test-drive">Записаться на тест-драйв</a>
+        <a href="{% url 'loan' car.id %}" class="btn-test-drive">Взять на автокредит</a>
+        <a href="{% url 'test_status' car.id %}" class="btn-test-drive">Заявка тест драйва</a>
+        <a href="{% url 'loan_status' car.id %}" class="btn-test-drive">Заявка автокредит</a>
+        <a href="{% url 'policy' car.id %}" class="btn-test-drive">Страхование</a>
+        <a href="{% url 'policy_status' car.id %}" class="btn-test-drive">Соглашение на страхование</a>
+        {% if perms.auto.delete_car %}
+        <button id="deleteBtn" class="form-button">Удалить</button>
+        {% endif %}
+    <form method="post" action="{% url 'car_delete' car.id %}">
+    {% csrf_token %}
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Вы уверены, что хотите удалить эту машину {{ car.name }}?</p>
+            <button type="submit" id="confirmDelete">Да</button>
+            <button type="button" id="cancelDelete">Нет</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    var modal = document.getElementById("myModal");
+    var deleteBtn = document.getElementById("deleteBtn");
+    var span = document.getElementsByClassName("close")[0];
+    var confirmDelete = document.getElementById("confirmDelete");
+    var cancelDelete = document.getElementById("cancelDelete");
+
+    deleteBtn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    cancelDelete.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+    </section>
+
+
+    <footer id="contact">
+        <p>Адрес: г. Москва, ул. Примерная, д. 1 | Телефон: +7 (495) 123-45-67 | Email: info@automir.ru</p>
+        <p>&copy; 2024 Автосалон "АвтоМир". Все права защищены.</p>
+    </footer>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</div>
+
+{% endblock %}

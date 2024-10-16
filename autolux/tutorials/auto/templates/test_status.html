@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %} {{ car.name }} - Управление заявкой на тест-драйв {% endblock %}
+{% block content %}
+
+<div class="container">
+    <h1>Управление заявкой на тест-драйв автомобиля</h1>
+
+    <h2>Данные автомобиля</h2>
+    <table class="table table-striped">
+        <tr>
+            <th>Модель</th>
+            <td>{{ car.name }} - {{ car.brand }}</td>
+        </tr>
+        <tr>
+            <th>Двигатель</th>
+            <td>{{ car.engine.name }}, {{ car.engine.volume }} л, {{ car.engine.power }} л.с</td>
+        </tr>
+        <tr>
+            <th>Коробка передач</th>
+            <td>{{ car.transmission.type }}</td>
+        </tr>
+        <tr>
+            <th>Тип кузова</th>
+            <td>{{ car.body_type.type }}</td>
+        </tr>
+        <tr>
+            <th>Руль</th>
+            <td>{{ car.rudder.type }}</td>
+        </tr>
+        <tr>
+            <th>Цвет</th>
+            <td>{{ car.color }}</td>
+        </tr>
+        <tr>
+            <th>Пробег</th>
+            <td>{{ car.mileage }} км</td>
+        </tr>
+        <tr>
+            <th>Цена</th>
+            <td>{{ car.price }} сом</td>
+        </tr>
+    </table>
+
+    <h2>Данные заявки</h2>
+    <p>Пользователь: {{ user.username }}</p>
+    <p>Имя: {{ user.first_name }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Телефон: {{ test_drive.phone }}</p>
+    <p>Предпочтительная дата: {{ test_drive.preferred_date }}</p>
+    <p>Комментарии: {{ test_drive.comments }}</p>
+
+
+    <h2>Управление заявкой</h2>
+    <p>Статус заявки: {{ test_drive.get_status_display }}</p>
+
+    {% if test_drive.status == 'pending' %}
+    <form method="POST">
+        {% csrf_token %}
+        {% if perms.auto %}
+        <button type="submit" name="approve" class="btn btn-success">Принять</button>
+        <button type="submit" name="reject" class="btn btn-danger">Отклонить</button>
+        {% endif %}
+    </form>
+    {% endif %}
+    <a href="{% url 'cars' %}" class="btn-test-drive">На главную страницу</a>
+</div>
+
+{% endblock %}

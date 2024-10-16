@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %} {{ car.name }} - Управление заявкой на автокредит {% endblock %}
+{% block content %}
+
+<div class="container">
+    <h1>Управление заявкой на автокредит</h1>
+
+    <h2>Данные автомобиля</h2>
+    <table class="table table-striped">
+        <tr>
+            <th>Модель</th>
+            <td>{{ car.name }} - {{ car.brand }}</td>
+        </tr>
+        <tr>
+            <th>Двигатель</th>
+            <td>{{ car.engine.name }}, {{ car.engine.volume }} л, {{ car.engine.power }} л.с</td>
+        </tr>
+        <tr>
+            <th>Коробка передач</th>
+            <td>{{ car.transmission.type }}</td>
+        </tr>
+        <tr>
+            <th>Тип кузова</th>
+            <td>{{ car.body_type.type }}</td>
+        </tr>
+        <tr>
+            <th>Руль</th>
+            <td>{{ car.rudder.type }}</td>
+        </tr>
+        <tr>
+            <th>Цвет</th>
+            <td>{{ car.color }}</td>
+        </tr>
+        <tr>
+            <th>Пробег</th>
+            <td>{{ car.mileage }} км</td>
+        </tr>
+    </table>
+
+    <h2>Данные заявки</h2>
+    <p>Пользователь: {{ user.username }}</p>
+    <p>Имя: {{ user.first_name }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Сумма кредита: {{ car.price }}</p>
+    <p>Телефон: {{ loan.phone_number }}</p>
+    <p>Срок кредита в месяцах: {{ loan.loan_term }}</p>
+    <p>Годовой доход: {{ loan.annual_income }}</p>
+
+    <h2>Управление заявкой</h2>
+    <p>Статус заявки: {{ loan.get_approved_display }}</p>
+
+    {% if loan.approved == 'pending' %}
+    <form method="POST">
+        {% csrf_token %}
+        {% if perms.auto %}
+        <button type="submit" name="approve" class="btn btn-success">Принять</button>
+        <button type="submit" name="reject" class="btn btn-danger">Отклонить</button>
+        {% endif %}
+    </form>
+    {% endif %}
+    <a href="{% url 'cars' %}" class="btn-test-drive">На главную страницу</a>
+    {% if loan.approved == 'approved' %}
+    <a href="{% url 'loan_payment' %}" class="btn btn-warning">Оплатить</a>
+    {% endif %}
+</div>
+
+{% endblock %}

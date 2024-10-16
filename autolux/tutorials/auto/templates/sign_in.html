@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} Авторизация {% endblock %}
+
+{% block content %}
+<div class="container">
+<form action="{% url 'sign_in' %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Войти" class="submit-btn">
+  <br>
+  <em>Если вы еще не зарегистрированы</em>
+  <p><a href="{% url 'sign_up' %}"  class="btn-test-drive">Регистрация</a></p>
+</form>
+  </div>
+{% endblock %}
